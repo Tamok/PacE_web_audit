@@ -1,0 +1,8 @@
+version: 1
+instructions: |
+  This repository contains PacE AID, an internal auditing tool for UCSB PaCE.
+  It crawls three PaCE web domains, indexes all pages and audits them for layout
+  consistency, language, branding (colors, pictures, logo), ADA compliance and
+  other UCSB PaCE policies. The code should remain modular, transparent and
+  professionally documented. Use safe, reliable libraries and keep the testing
+  pipeline green. Output JSON and an HTML dashboard summarizing audit results.
