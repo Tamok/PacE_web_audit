@@ -1,0 +1,22 @@
+[project]
+name = "pace_aid"
+version = "0.1.0"
+description = "UCSB PaCE website auditing tool"
+requires-python = ">=3.10"
+authors = [{name="UCSB PaCE"}]
+dependencies = [
+    "requests",
+    "beautifulsoup4",
+    "openai",
+    "wcag-contrast-ratio"
+]
+
+[project.optional-dependencies]
+test = ["pytest", "responses"]
+
+[project.scripts]
+pace-aid = "pace_aid.main:main"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
