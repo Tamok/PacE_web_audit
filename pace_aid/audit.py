@@ -41,6 +41,13 @@ def check_alt_text(page: Page) -> bool:
     return all(img.has_attr("alt") and img["alt"].strip() for img in images)
 
 
+def check_headings(page: Page) -> bool:
+    """Ensure exactly one H1 heading is present."""
+    soup = BeautifulSoup(page.html, "html.parser")
+    h1s = soup.find_all("h1")
+    return len(h1s) == 1
+
+
 def check_brand_colors(page: Page) -> bool:
     soup = BeautifulSoup(page.html, "html.parser")
     colors_in_page = set()
@@ -79,6 +86,8 @@ def run_audits(page: Page) -> List[str]:
         failures.append("layout")
     if not check_alt_text(page):
         failures.append("alt_text")
+    if not check_headings(page):
+        failures.append("headings")
     if not check_brand_colors(page):
         failures.append("brand_colors")
     if not check_contrast(page):
