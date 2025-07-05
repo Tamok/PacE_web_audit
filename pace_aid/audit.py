@@ -75,6 +75,13 @@ def check_contrast(page: Page) -> bool:
     return True
 
 
+def check_meta_description(page: Page) -> bool:
+    """Ensure page has a meta description tag."""
+    soup = BeautifulSoup(page.html, "html.parser")
+    tag = soup.find("meta", attrs={"name": "description"})
+    return bool(tag and tag.get("content"))
+
+
 def summarize(page: Page) -> str:
     return summarize_text(page.text)
 
@@ -92,4 +99,6 @@ def run_audits(page: Page) -> List[str]:
         failures.append("brand_colors")
     if not check_contrast(page):
         failures.append("contrast")
+    if not check_meta_description(page):
+        failures.append("meta_description")
     return failures

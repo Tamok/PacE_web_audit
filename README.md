@@ -8,7 +8,7 @@ PacE AID (Artificial Intelligence Dean) is a tool for crawling and auditing the 
   - https://enroll.professional.ucsb.edu/ (Course Pages)
   - https://help.professional.ucsb.edu/ (Help Desk)
 - Validate layout consistency, branding, language, and ADA compliance.
-- Check that pages include a single top-level heading.
+- Check that pages include a single top-level heading and a meta description tag.
 - Optional OpenAI integration for AI-assisted checks.
 - Output a live HTML dashboard summarizing audit results.
 
@@ -32,7 +32,7 @@ Internal use only.
 
 ### Current features
 - Crawl specified PaCE domains and build an index
-- Validate layout, alt text, headings, brand colors, and contrast
+- Validate layout, alt text, headings, meta descriptions, brand colors, and contrast
 - Summarize page text with optional OpenAI integration
 - Export results to JSON and an HTML dashboard
 

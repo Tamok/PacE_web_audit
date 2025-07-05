@@ -3,6 +3,7 @@ from pace_aid import audit
 
 SIMPLE_HTML = """
 <html>
+  <head><meta name='description' content='desc'></meta></head>
   <header></header>
   <body>
     <h1>Title</h1>
@@ -23,3 +24,9 @@ def test_headings_check_fails():
     html = SIMPLE_HTML.replace('<h1>Title</h1>', '')
     bad_page = Page(url='https://bad.com', html=html, text='Text', category='Website')
     assert 'headings' in audit.run_audits(bad_page)
+
+
+def test_meta_description_missing():
+    html = SIMPLE_HTML.replace("<meta name='description' content='desc'></meta>", '')
+    bad_page = Page(url='https://bad.com', html=html, text='Text', category='Website')
+    assert 'meta_description' in audit.run_audits(bad_page)
