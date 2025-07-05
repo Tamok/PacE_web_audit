@@ -8,6 +8,7 @@ PacE AID (Artificial Intelligence Dean) is a tool for crawling and auditing the 
   - https://help.professional.ucsb.edu/
   - https://enroll.professional.ucsb.edu/
 - Validate layout consistency, branding, language, and ADA compliance.
+- Check that pages include a single top-level heading.
 - Optional OpenAI integration for AI-assisted checks.
 
 ## Usage
