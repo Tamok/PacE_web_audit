@@ -47,7 +47,6 @@ def check_headings(page: Page) -> bool:
     h1s = soup.find_all("h1")
     return len(h1s) == 1
 
-
 def check_brand_colors(page: Page) -> bool:
     soup = BeautifulSoup(page.html, "html.parser")
     colors_in_page = set()

@@ -18,7 +18,6 @@ page = Page(url='https://example.com', html=SIMPLE_HTML, text='Text', category='
 def test_run_audits():
     assert audit.run_audits(page) == []
 
-
 def test_headings_check_fails():
     html = SIMPLE_HTML.replace('<h1>Title</h1>', '')
     bad_page = Page(url='https://bad.com', html=html, text='Text', category='Website')
