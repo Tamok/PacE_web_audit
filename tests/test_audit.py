@@ -7,7 +7,7 @@ SIMPLE_HTML = """
   <header></header>
   <body>
     <h1>Title</h1>
-    <img src='x.png' alt='desc'>
+    <img src='https://www.professional.ucsb.edu/sites/default/files/2025-05/Logo_PaCE_2025_Full.png' alt='desc'>
     <div style='color:#FFFFFF;background:#003660'>Text</div>
   </body>
   <footer></footer>
@@ -30,3 +30,9 @@ def test_meta_description_missing():
     html = SIMPLE_HTML.replace("<meta name='description' content='desc'></meta>", '')
     bad_page = Page(url='https://bad.com', html=html, text='Text', category='Website')
     assert 'meta_description' in audit.run_audits(bad_page)
+
+
+def test_logo_check_fails():
+    html = SIMPLE_HTML.replace('Logo_PaCE_2025_Full.png', 'bad_logo.png')
+    bad_page = Page(url='https://bad.com', html=html, text='Text', category='Website')
+    assert 'logos' in audit.run_audits(bad_page)

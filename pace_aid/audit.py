@@ -10,13 +10,7 @@ from wcag_contrast_ratio import rgb
 
 from .indexer import Page
 from .openai_utils import summarize_text
-
-# Example brand colors (hex) from the provided spreadsheet
-BRAND_COLORS = {
-    "#003660",  # UCSB blue
-    "#FFCD00",  # yellow
-    "#FFFFFF",  # white
-}
+from .brand import BRAND_COLORS, LOGO_URLS
 
 
 def _hex_to_rgb(value: str) -> Tuple[float, float, float]:
@@ -75,6 +69,18 @@ def check_contrast(page: Page) -> bool:
     return True
 
 
+def check_logos(page: Page) -> bool:
+    """Ensure any logo images use approved sources."""
+    soup = BeautifulSoup(page.html, "html.parser")
+    logos = [img["src"] for img in soup.find_all("img", src=True) if "logo" in img["src"].lower()]
+    if not logos:
+        return True
+    for src in logos:
+        if not any(src.startswith(url) for url in LOGO_URLS):
+            return False
+    return True
+
+
 def check_meta_description(page: Page) -> bool:
     """Ensure page has a meta description tag."""
     soup = BeautifulSoup(page.html, "html.parser")
@@ -99,6 +105,8 @@ def run_audits(page: Page) -> List[str]:
         failures.append("brand_colors")
     if not check_contrast(page):
         failures.append("contrast")
+    if not check_logos(page):
+        failures.append("logos")
     if not check_meta_description(page):
         failures.append("meta_description")
     return failures

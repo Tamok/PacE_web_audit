@@ -6,4 +6,5 @@ __all__ = [
     "indexer",
     "audit",
     "openai_utils",
+    "brand",
 ]
