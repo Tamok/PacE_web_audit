@@ -9,14 +9,8 @@ from bs4 import BeautifulSoup
 from wcag_contrast_ratio import rgb
 
 from .indexer import Page
-from .openai_utils import summarize_text
-
-# Example brand colors (hex) from the provided spreadsheet
-BRAND_COLORS = {
-    "#003660",  # UCSB blue
-    "#FFCD00",  # yellow
-    "#FFFFFF",  # white
-}
+from .openai_utils import summarize_text, brand_voice_consistent
+from .brand import BRAND_COLORS, LOGO_SOURCES
 
 
 def _hex_to_rgb(value: str) -> Tuple[float, float, float]:
@@ -47,6 +41,7 @@ def check_headings(page: Page) -> bool:
     h1s = soup.find_all("h1")
     return len(h1s) == 1
 
+
 def check_brand_colors(page: Page) -> bool:
     soup = BeautifulSoup(page.html, "html.parser")
     colors_in_page = set()
@@ -74,6 +69,43 @@ def check_contrast(page: Page) -> bool:
     return True
 
 
+def check_logos(page: Page) -> bool:
+    """Ensure any logo images or SVGs use approved sources."""
+    soup = BeautifulSoup(page.html, "html.parser")
+    sources = []
+    for img in soup.find_all("img", src=True):
+        if "logo" in img["src"].lower():
+            sources.append(img["src"])
+    for image in soup.find_all("image", attrs={"xlink:href": True}):
+        if "logo" in image["xlink:href"].lower():
+            sources.append(image["xlink:href"])
+    for image in soup.find_all("image", href=True):
+        if "logo" in image["href"].lower():
+            sources.append(image["href"])
+    if not sources:
+        return True
+    for src in sources:
+        if src.startswith("data:"):
+            if src.startswith("data:image/svg+xml") or src.startswith("data:image/png"):
+                continue
+            return False
+        if not any(src.startswith(p) for p in LOGO_SOURCES):
+            return False
+    return True
+
+
+def check_meta_description(page: Page) -> bool:
+    """Ensure page has a meta description tag."""
+    soup = BeautifulSoup(page.html, "html.parser")
+    tag = soup.find("meta", attrs={"name": "description"})
+    return bool(tag and tag.get("content"))
+
+
+def check_brand_voice(page: Page) -> bool:
+    """Use OpenAI to ensure text matches the PaCE brand voice."""
+    return brand_voice_consistent(page.text)
+
+
 def summarize(page: Page) -> str:
     return summarize_text(page.text)
 
@@ -85,10 +117,16 @@ def run_audits(page: Page) -> List[str]:
         failures.append("layout")
     if not check_alt_text(page):
         failures.append("alt_text")
+    if not check_brand_voice(page):
+        failures.append("brand_voice")
     if not check_headings(page):
         failures.append("headings")
     if not check_brand_colors(page):
         failures.append("brand_colors")
     if not check_contrast(page):
         failures.append("contrast")
+    if not check_logos(page):
+        failures.append("logos")
+    if not check_meta_description(page):
+        failures.append("meta_description")
     return failures

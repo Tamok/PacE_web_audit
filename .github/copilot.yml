@@ -1,0 +1,14 @@
+version: 1
+instructions: |
+  This repository contains PacE AID, an internal auditing tool for UCSB PaCE.
+  It crawls three PaCE web domains, indexes all pages and audits them for layout
+  consistency, language, branding (colors, pictures, logo), ADA compliance and
+  other UCSB PaCE policies. Approved brand colors and logos come from the
+  spreadsheet at https://docs.google.com/spreadsheets/d/e/2PACX-1vSzhsMRhe-VVLFfa89R9aUNJ58dIvGCMF41QWiOig4wqZHMJJ4_xDVql11siefnc3stU17WyFqbUeLb/pubhtml
+  and are listed in ``pace_aid/brand.py``. Logos may appear as inline SVG images
+  using data URIs, which are accepted sources. The code should remain modular,
+  transparent and professionally documented. Use safe, reliable libraries and
+  keep the testing pipeline green. Set ``OPENAI_API_KEY`` in the environment to
+  enable text summarization and brand voice checks via OpenAI. Use the API
+  conservatively to minimize costs. Output JSON and an HTML dashboard
+  summarizing audit results.
