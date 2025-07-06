@@ -20,6 +20,8 @@ Install dependencies and run the audit:
 pip install -e .[test]
 pace-aid crawl --limit 10 --dashboard report.html
 ```
+To enable page summarization with OpenAI, set the `OPENAI_API_KEY` environment
+variable before running the tool.
 
 ## Tests
 Run unit tests using `pytest`:

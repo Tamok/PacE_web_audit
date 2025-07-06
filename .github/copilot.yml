@@ -8,5 +8,6 @@ instructions: |
   and are listed in ``pace_aid/brand.py``. Logos may appear as inline SVG images
   using data URIs, which are accepted sources. The code should remain modular,
   transparent and professionally documented. Use safe, reliable libraries and
-  keep the testing pipeline green. Output JSON and an HTML dashboard summarizing
-  audit results.
+  keep the testing pipeline green. Set ``OPENAI_API_KEY`` in the environment to
+  enable text summarization via OpenAI. Output JSON and an HTML dashboard
+  summarizing audit results.
