@@ -20,8 +20,9 @@ Install dependencies and run the audit:
 pip install -e .[test]
 pace-aid crawl --limit 10 --dashboard report.html
 ```
-To enable OpenAI features like summarization and brand voice checks, set the
-`OPENAI_API_KEY` environment variable before running the tool. Use the API
+OpenAI functionality such as summarization and brand voice validation requires
+the `OPENAI_API_KEY` environment variable. If the key is not set or the OpenAI
+package is unavailable, the tool will raise an error. Use the API
 conservatively to manage costs.
 
 ## Tests
