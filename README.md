@@ -1,16 +1,18 @@
 # PacE Web Audit
 
-PacE AID (Artificial Intelligence Dean) is a tool for crawling and auditing the UCSB Professional and Continuing Education websites. It indexes pages from the three PaCE domains and evaluates them for branding and compliance issues using reliable, well-tested libraries. The goal is a modular, transparent system suitable for internal use.
+PacE AID (Artificial Intelligence Dean) crawls the three PaCE domains and indexes every page. It validates layout, brand voice and accessibility using safe, modern libraries. The project is modular, thoroughly tested and intended for internal use only.
 
 ## Features
 - **Crawling targets**
   - https://www.professional.ucsb.edu/ (Website)
   - https://enroll.professional.ucsb.edu/ (Course Pages)
   - https://help.professional.ucsb.edu/ (Help Desk)
-- Validate layout consistency, branding, language, and ADA compliance.
-- Check that pages include a single top-level heading, a meta description tag, and approved logos.
-- Optional OpenAI integration for AI-assisted checks.
-- Output a live HTML dashboard summarizing audit results.
+- Parse and index the Website, Course Pages and Help Desk domains.
+- Validate layout consistency, brand voice and ADA compliance.
+- Ensure approved brand colors and logos are used. Inline SVG logos with data URIs are accepted.
+- Check that each page includes one H1 heading and a meta description tag.
+- Optional OpenAI integration for AI-assisted checks such as summarization.
+- Output JSON data and a live HTML dashboard summarizing audit results.
 
 ## Usage
 Install dependencies and run the audit:

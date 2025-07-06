@@ -10,7 +10,7 @@ from wcag_contrast_ratio import rgb
 
 from .indexer import Page
 from .openai_utils import summarize_text
-from .brand import BRAND_COLORS, LOGO_URLS
+from .brand import BRAND_COLORS, LOGO_SOURCES
 
 
 def _hex_to_rgb(value: str) -> Tuple[float, float, float]:
@@ -70,13 +70,26 @@ def check_contrast(page: Page) -> bool:
 
 
 def check_logos(page: Page) -> bool:
-    """Ensure any logo images use approved sources."""
+    """Ensure any logo images or SVGs use approved sources."""
     soup = BeautifulSoup(page.html, "html.parser")
-    logos = [img["src"] for img in soup.find_all("img", src=True) if "logo" in img["src"].lower()]
-    if not logos:
+    sources = []
+    for img in soup.find_all("img", src=True):
+        if "logo" in img["src"].lower():
+            sources.append(img["src"])
+    for image in soup.find_all("image", attrs={"xlink:href": True}):
+        if "logo" in image["xlink:href"].lower():
+            sources.append(image["xlink:href"])
+    for image in soup.find_all("image", href=True):
+        if "logo" in image["href"].lower():
+            sources.append(image["href"])
+    if not sources:
         return True
-    for src in logos:
-        if not any(src.startswith(url) for url in LOGO_URLS):
+    for src in sources:
+        if src.startswith("data:"):
+            if src.startswith("data:image/svg+xml") or src.startswith("data:image/png"):
+                continue
+            return False
+        if not any(src.startswith(p) for p in LOGO_SOURCES):
             return False
     return True
 

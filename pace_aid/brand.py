@@ -7,8 +7,8 @@ BRAND_COLORS = {
     "#febc11",  # UCSB Gold
 }
 
-# Approved logo image URLs
-LOGO_URLS = [
+# Approved logo image URLs and allowed prefixes
+LOGO_SOURCES = [
     "https://www.professional.ucsb.edu/sites/default/files/2025-05/Logo_PaCE_2025_Full.png",
     "https://www.professional.ucsb.edu/sites/default/files/2025-05/Logo_IP_2025_Full.png",
     "https://www.professional.ucsb.edu/sites/default/files/2025-05/Logo_PaCE_2025_Full_White_0.png",
@@ -17,4 +17,6 @@ LOGO_URLS = [
     "https://www.professional.ucsb.edu/sites/default/files/2025-05/Logo_IP_2025_Full_Black.png",
     "https://www.professional.ucsb.edu/sites/default/files/2025-05/Logo_PaCE_2025_Short.png",
     "https://www.professional.ucsb.edu/sites/default/files/2025-05/Logo_IP_2025_Short.png",
+    "data:image/svg+xml",
+    "data:image/png;base64",
 ]
