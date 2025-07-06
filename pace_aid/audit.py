@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 from wcag_contrast_ratio import rgb
 
 from .indexer import Page
-from .openai_utils import summarize_text
+from .openai_utils import summarize_text, brand_voice_consistent
 from .brand import BRAND_COLORS, LOGO_SOURCES
 
 
@@ -101,6 +101,11 @@ def check_meta_description(page: Page) -> bool:
     return bool(tag and tag.get("content"))
 
 
+def check_brand_voice(page: Page) -> bool:
+    """Use OpenAI to ensure text matches the PaCE brand voice."""
+    return brand_voice_consistent(page.text)
+
+
 def summarize(page: Page) -> str:
     return summarize_text(page.text)
 
@@ -112,6 +117,8 @@ def run_audits(page: Page) -> List[str]:
         failures.append("layout")
     if not check_alt_text(page):
         failures.append("alt_text")
+    if not check_brand_voice(page):
+        failures.append("brand_voice")
     if not check_headings(page):
         failures.append("headings")
     if not check_brand_colors(page):

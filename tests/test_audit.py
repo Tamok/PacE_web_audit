@@ -16,7 +16,8 @@ SIMPLE_HTML = """
 
 page = Page(url='https://example.com', html=SIMPLE_HTML, text='Text', category='Website')
 
-def test_run_audits():
+def test_run_audits(monkeypatch):
+    monkeypatch.setattr(audit, "check_brand_voice", lambda page: True)
     assert audit.run_audits(page) == []
 
 
@@ -45,3 +46,11 @@ def test_logo_inline_svg_passes():
     )
     svg_page = Page(url='https://example.com', html=svg_html, text='Text', category='Website')
     assert 'logos' not in audit.run_audits(svg_page)
+
+
+def test_brand_voice_check_fails(monkeypatch):
+    def fake_brand_voice_consistent(text: str) -> bool:
+        return False
+
+    monkeypatch.setattr(audit, "check_brand_voice", lambda page: fake_brand_voice_consistent(page.text))
+    assert 'brand_voice' in audit.run_audits(page)
